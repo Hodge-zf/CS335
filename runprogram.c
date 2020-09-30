@@ -6,16 +6,28 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-int main()
+int main(char *cmd)
 {
-	char path[100];
-	char *args[0];
 
-	printf("Enter the file path:\n");
-	scanf("%s", &path);
+	char* argv[1];
+	pid_t child1;
+	pid_t tpid;
+	int child_status;
+	
+	child1 = fork();
+	
+	if(child1 == 0){
+		execvp(argv[0], argv);
 
-	char *child[] = {"PATH=path", (char*)0};
-	execve(args[0], args, child);
+	exit(0);
+	}
+	
+	else{
+		do{
+			tpid = wait(&child_status);
+		} while(tpid != child1);
+	}
 
-	return 0;
+	return child_status;
+	
 }
