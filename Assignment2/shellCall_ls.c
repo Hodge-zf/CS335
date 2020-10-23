@@ -8,6 +8,7 @@
  - Create a child process
  - Parent wait child process to terminate
  - calls the ls command */
+
 int main() {
 
   char command[25];
@@ -20,26 +21,37 @@ int main() {
   time(&now);
 
   printf("<%s, %s>\n",username,ctime(&now));
-  printf("Please type a Unix command:\n");
 
-  scanf("%s", command);
-  char directory[35] = "/usr/bin/";
 
-  strcat(directory,command);
 
-      pid_t  pid;
+
+  pid_t  pid;
 	/* fork another process */
+
 	pid = fork();
 	if (pid < 0) { /* error occurred */
 		fprintf(stderr, "Fork Failed");
 		exit(-1);
 	}
 	else if (pid == 0) { /* child process */
-		execlp(directory, command, NULL);
+    printf("\nPlease type a Unix command:\n");
+
+    scanf("%s", command);
+
+    if(command == "quit"){
+
+      exit(0);
+    }
+
+    char directory[35] = "/usr/bin/";
+    strcat(directory,command);
+
+    execlp(directory, command, NULL);
 	}
 	else { /* parent process */
 		/* parent will wait for the child to complete */
 		wait(NULL);
-		printf("Child Complete");
-		exit(0); 	       }
-   }
+		printf("\nChild Complete\n");
+    exit(0);
+       }
+}
