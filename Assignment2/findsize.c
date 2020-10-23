@@ -15,6 +15,15 @@ int main(int argc, char *argv[]){
   close(fd);
   printf("\nSize of file is: %d\n", size);
 
+  int blocks;
 
+  if(size/512 < 8){
+    blocks = 8;
+  }
+  else{
+    blocks = size/512;
+  }
+
+  printf("\nNumber of blocks is: %d\n", blocks);
 
 }
